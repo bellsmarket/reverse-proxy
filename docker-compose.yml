@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+  animal:
+    image: nginx
+    container_name: 'animal-container'
+    volumes:
+      - ./src/animal:/usr/share/nginx/html
+    ports:
+      - 9000:80
+
+  cat:
+    image: nginx
+    container_name: 'cat-container'
+    volumes:
+      - ./src/cat:/usr/share/nginx/html
+    ports:
+      - 9001:80
+
+  dog:
+    image: nginx
+    container_name: 'dog-container'
+    volumes:
+      - ./src/dog:/usr/share/nginx/html
+    ports:
+      - 9002:80
+  
+  bird:
+    image: nginx
+    container_name: 'bird-container'
+    volumes:
+      - ./src/bird:/usr/share/nginx/html
+    ports:
+      - 9003:80
+  
+
+  # リバースプロキシ 
+  reverse-proxy:
+    image: nginx 
+    volumes:
+      - ./reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+
+  # mailserver 
+  # mailserver:
+  #   image: docker.io/mailserver/docker-mailserver:latest
+  #   container_name: mailserver
+  #   # If the FQDN for your mail-server is only two labels (eg: example.com),
+  #   # you can assign this entirely to `hostname` and remove `domainname`.
+  #   hostname: mail
+  #   domainname: example.com
+  #   env_file: mailserver.env
+  #   # More information about the mail-server ports:
+  #   # https://docker-mailserver.github.io/docker-mailserver/edge/config/security/understanding-the-ports/
+  #   # To avoid conflicts with yaml base-60 float, DO NOT remove the quotation marks.
+  #   ports:
+  #     - "25:25"    # SMTP  (explicit TLS => STARTTLS)
+  #     - "143:143"  # IMAP4 (explicit TLS => STARTTLS)
+  #     - "465:465"  # ESMTP (implicit TLS)
+  #     - "587:587"  # ESMTP (explicit TLS => STARTTLS)
+  #     - "993:993"  # IMAP4 (implicit TLS)
+  #   volumes:
+  #     - ./docker-data/dms/mail-data/:/var/mail/
+  #     - ./docker-data/dms/mail-state/:/var/mail-state/
+  #     - ./docker-data/dms/mail-logs/:/var/log/mail/
+  #     - ./docker-data/dms/config/:/tmp/docker-mailserver/
+  #     - /etc/localtime:/etc/localtime:ro
+  #   restart: always
+  #   stop_grace_period: 1m
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_PTRACE
+
